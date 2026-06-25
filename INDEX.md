@@ -299,10 +299,9 @@ python -c "from phonetic_dict import PhoneticDictionary; print('✓ Import succe
 ---
 
 ## 📞Any questions/collaboration requests?
-DM at https://www.linkedin.com/in/neethi-amrutha-a2939a376/
-Dhanyavadaalu!
 ---
-
+DM at https://www.linkedin.com/in/neethi-amrutha-a2939a376/
+Dhanyavaadhaalu!
 **Happy building! 🎉**
 
-*Telugu Phonetic Dictionary - Empowering speech and language technology*
+A PassaGlossa initiative - to empower every language from the grassroots level
