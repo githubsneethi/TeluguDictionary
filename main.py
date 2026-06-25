@@ -1,11 +1,3 @@
-#!/usr/bin/env python3
-"""
-Main script for building a Telugu phonetic dictionary from Wiktionary.
-
-Usage:
-    python main.py
-"""
-
 import os
 from phonetic_dict import PhoneticDictionary, PhoneticEntry
 from wiktionary_scraper import WiktionaryScraper
@@ -13,7 +5,7 @@ from data_cleaner import DataCleaner
 
 
 def sample_words():
-    """Return a list of sample Telugu words to scrape."""
+    #i will explain the telugu words for better understanding
     return [
         'నమస్కారం',  # hello/greetings
         'భరత',  # name/India
@@ -34,9 +26,6 @@ def sample_words():
 
 
 def main():
-    """Main workflow for building the dictionary."""
-    
-    print("\n" + "="*60)
     print("   Telugu Phonetic Dictionary Builder".center(60))
     print("   (Wiktionary Data Extraction & Processing)".center(60))
     print("="*60 + "\n")
