@@ -1,24 +1,20 @@
-"""
-Phonetic Dictionary for Telugu words and their pronunciations.
-Stores and retrieves pronunciation data in multiple formats.
-"""
+#Phonetic Dictionary to store and retrieve Telugu pronunciation data in multiple formats such as JSON, CSV
+
 
 import json
 import os
-from typing import Dict, List, Optional, Tuple
 from dataclasses import dataclass, asdict
 from datetime import datetime
 
 
 @dataclass
 class PhoneticEntry:
-    """Represents a single phonetic entry for a word."""
     word: str
     telugu_script: str  # Original Telugu script
     ipa: str  # International Phonetic Alphabet
     devanagari: Optional[str] = None  # Transliteration
     english_meaning: Optional[str] = None  # English translation
-    word_type: Optional[str] = None  # noun, verb, adjective, etc.
+    word_type: Optional[str] = None  # part of speech such as noun, verb, adjective
     source: str = "wiktionary"  # Source of the data
     timestamp: str = None  # When it was added
     
@@ -45,7 +41,6 @@ class PhoneticDictionary:
         self.load()
     
     def load(self):
-        """Load existing dictionary from file."""
         if os.path.exists(self.filepath):
             try:
                 with open(self.filepath, 'r', encoding='utf-8') as f:
@@ -86,8 +81,7 @@ class PhoneticDictionary:
         word = entry.word
         if word not in self.entries:
             self.entries[word] = []
-        
-        # Avoid duplicates
+
         existing_ipas = {e.ipa for e in self.entries[word]}
         if entry.ipa not in existing_ipas:
             self.entries[word].append(entry)
@@ -128,16 +122,6 @@ class PhoneticDictionary:
         return entries[0].ipa if entries else None
     
     def search(self, query: str, by: str = "word") -> List[Tuple[str, PhoneticEntry]]:
-        """
-        Search for words by various criteria.
-        
-        Args:
-            query: Search query
-            by: Search field ("word", "ipa", "meaning", "type")
-            
-        Returns:
-            List of (word, entry) tuples
-        """
         results = []
         query_lower = query.lower()
         
@@ -160,21 +144,15 @@ class PhoneticDictionary:
         return results
     
     def export_tts_format(self, filepath: str):
-        """
-        Export dictionary in TTS-friendly format (word\tIPA).
-        
-        Args:
-            filepath: Output file path
-        """
         try:
             with open(filepath, 'w', encoding='utf-8') as f:
                 for word, entries in sorted(self.entries.items()):
                     # Use first (primary) pronunciation
                     ipa = entries[0].ipa
                     f.write(f"{word}\t{ipa}\n")
-            print(f"✓ Exported TTS format to {filepath}")
+            print(f"Exported TTS format to {filepath}")
         except Exception as e:
-            print(f"✗ Error exporting TTS format: {e}")
+            print(f"Error exporting TTS format: {e}")
     
     def export_g2p_training(self, filepath: str):
         """
@@ -190,17 +168,11 @@ class PhoneticDictionary:
                     ipa = entries[0].ipa
                     # Simple format: word IPA
                     f.write(f"{word}\t{ipa}\n")
-            print(f"✓ Exported G2P training format to {filepath}")
+            print(f"Exported G2P training format to {filepath}")
         except Exception as e:
-            print(f"✗ Error exporting G2P format: {e}")
+            print(f"Error exporting G2P format: {e}")
     
     def export_csv(self, filepath: str):
-        """
-        Export dictionary as CSV for spreadsheet applications.
-        
-        Args:
-            filepath: Output file path
-        """
         try:
             import csv
             with open(filepath, 'w', encoding='utf-8', newline='') as f:
@@ -222,17 +194,12 @@ class PhoneticDictionary:
                             entry.source,
                             entry.timestamp
                         ])
-            print(f"✓ Exported CSV to {filepath}")
+            print(f"Exported CSV to {filepath}")
         except Exception as e:
-            print(f"✗ Error exporting CSV: {e}")
+            print(f"Error exporting CSV: {e}")
     
     def export_json(self, filepath: str):
-        """
-        Export full dictionary as JSON.
-        
-        Args:
-            filepath: Output file path
-        """
+
         try:
             with open(filepath, 'w', encoding='utf-8') as f:
                 data = {
@@ -245,12 +212,6 @@ class PhoneticDictionary:
             print(f"✗ Error exporting JSON: {e}")
     
     def get_stats(self) -> Dict:
-        """
-        Get statistics about the dictionary.
-        
-        Returns:
-            Dictionary with statistics
-        """
         total_entries = self._total_entries()
         total_words = len(self.entries)
         
