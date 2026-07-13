@@ -1,25 +1,13 @@
-#!/usr/bin/env python3
-"""
-Advanced usage examples for the Telugu Phonetic Dictionary.
-"""
-
 from phonetic_dict import PhoneticDictionary, PhoneticEntry
 from wiktionary_scraper import WiktionaryScraper
 from data_cleaner import DataCleaner
-from typing import List
-
 
 def example_1_basic_lookup():
-    """Example 1: Basic word lookup."""
-    print("\n" + "="*60)
-    print("Example 1: Basic Word Lookup")
-    print("="*60 + "\n")
-    
     # Load dictionary
     phonetic_dict = PhoneticDictionary("telugu_phonetic.json")
     
     # Lookup a word
-    word = "నమస్కారం"
+    word = "పర్వతం"
     entries = phonetic_dict.get_word(word)
     
     if entries:
@@ -34,57 +22,39 @@ def example_1_basic_lookup():
         print(f"No pronunciation found for '{word}'")
 
 
-def example_2_search_operations():
-    """Example 2: Various search operations."""
-    print("\n" + "="*60)
-    print("Example 2: Search Operations")
-    print("="*60 + "\n")
-    
+def example_2_search_operations():    
     phonetic_dict = PhoneticDictionary("telugu_phonetic.json")
     
-    # Search by IPA sound
+    # Search by sound
     print("Words containing 'ə' (schwa) sound:")
     results = phonetic_dict.search("ə", by="ipa")
     for word, entry in results[:5]:
-        print(f"  • {word}: {entry.ipa}")
+        print(f"   {word}: {entry.ipa}")
     print(f"  Total: {len(results)} words\n")
     
-    # Search by word prefix
+    # Search by prefix
     print("Words starting with 'న':")
     results = phonetic_dict.search("న", by="word")
     for word, entry in results[:5]:
-        print(f"  • {word}: {entry.ipa}")
-    if len(results) > 5:
-        print(f"  ... and {len(results) - 5} more\n")
+        print(f"   {word}: {entry.ipa}")
     
     # Search by meaning
     print("Words related to 'time':")
     results = phonetic_dict.search("time", by="meaning")
     for word, entry in results[:5]:
-        print(f"  • {word}: {entry.english_meaning}")
+        print(f"   {word}: {entry.english_meaning}")
     if results:
         print()
 
 
-def example_3_statistics():
-    """Example 3: Dictionary statistics."""
-    print("\n" + "="*60)
-    print("Example 3: Dictionary Statistics")
-    print("="*60 + "\n")
-    
+def example_3_statistics():  
     phonetic_dict = PhoneticDictionary("telugu_phonetic.json")
     phonetic_dict.display_stats()
 
 
 def example_4_add_entries():
-    """Example 4: Manually add entries."""
-    print("\n" + "="*60)
-    print("Example 4: Adding Manual Entries")
-    print("="*60 + "\n")
-    
-    phonetic_dict = PhoneticDictionary("telugu_phonetic_custom.json")
-    
-    # Create custom entries
+   phonetic_dict = PhoneticDictionary("telugu_phonetic_custom.json")
+
     entries_to_add = [
         PhoneticEntry(
             word="మన",
@@ -125,11 +95,6 @@ def example_4_add_entries():
 
 
 def example_5_export_formats():
-    """Example 5: Export in different formats."""
-    print("\n" + "="*60)
-    print("Example 5: Export Formats")
-    print("="*60 + "\n")
-    
     phonetic_dict = PhoneticDictionary("telugu_phonetic.json")
     
     print("Exporting dictionary in multiple formats:\n")
@@ -156,19 +121,14 @@ def example_5_export_formats():
 
 
 def example_6_cleaning_pipeline():
-    """Example 6: Data cleaning and validation."""
-    print("\n" + "="*60)
-    print("Example 6: Data Cleaning Pipeline")
-    print("="*60 + "\n")
-    
-    # Create dictionary with some "dirty" data
+# Create dictionary with some dirty data
     phonetic_dict = PhoneticDictionary("telugu_dirty.json")
     
     # Add some entries with issues
     phonetic_dict.add_entry(PhoneticEntry(
         word="నేను",
         telugu_script="నేను",
-        ipa="[neːnʊ]",  # Has brackets - will be cleaned
+        ipa="[neːnʊ]",  # will be cleaned as it is having brackets
         english_meaning="I/me",
         word_type="pronoun"
     ))
@@ -182,10 +142,10 @@ def example_6_cleaning_pipeline():
     ))
     
     phonetic_dict.add_entry(PhoneticEntry(
-        word="నీవు",
-        telugu_script="నీవు",
-        ipa="niːvʊ",
-        english_meaning="you",
+        word="నవు",
+        telugu_script="నవు",
+        ipa="navʊ",
+        english_meaning="?",
         word_type="unknown_type"  # Invalid word type
     ))
     
@@ -207,84 +167,7 @@ def example_6_cleaning_pipeline():
     report = cleaner.get_issues_report()
     print(report)
 
-
-def example_7_g2p_preparation():
-    """Example 7: Prepare data for G2P training."""
-    print("\n" + "="*60)
-    print("Example 7: G2P Training Data Preparation")
-    print("="*60 + "\n")
-    
-    phonetic_dict = PhoneticDictionary("telugu_phonetic.json")
-    
-    # Export in G2P format
-    phonetic_dict.export_g2p_training("g2p_training_data.txt")
-    
-    print("G2P training file created: g2p_training_data.txt\n")
-    print("Sample usage for training:")
-    print("""
-    # With Python + TensorFlow
-    import tensorflow as tf
-    from tensorflow import keras
-    
-    # Load G2P data
-    with open('g2p_training_data.txt', 'r', encoding='utf-8') as f:
-        lines = f.readlines()
-    
-    # Parse grapheme-phoneme pairs
-    graphemes = []
-    phonemes = []
-    for line in lines:
-        g, p = line.strip().split('\\t')
-        graphemes.append(g)
-        phonemes.append(p)
-    
-    # Build and train model...
-    """)
-
-
-def example_8_tts_integration():
-    """Example 8: Prepare data for TTS system."""
-    print("\n" + "="*60)
-    print("Example 8: TTS Integration")
-    print("="*60 + "\n")
-    
-    phonetic_dict = PhoneticDictionary("telugu_phonetic.json")
-    
-    # Export for TTS
-    phonetic_dict.export_tts_format("tts_dictionary.txt")
-    
-    print("TTS dictionary created: tts_dictionary.txt\n")
-    print("Sample usage with TTS engine:")
-    print("""
-    # Example: Using with a TTS library
-    import phoneme_synthesizer  # Your TTS library
-    
-    # Load dictionary
-    tts_dict = {}
-    with open('tts_dictionary.txt', 'r', encoding='utf-8') as f:
-        for line in f:
-            word, ipa = line.strip().split('\\t')
-            tts_dict[word] = ipa
-    
-    # Synthesize speech
-    def text_to_speech(text):
-        words = text.split()
-        for word in words:
-            if word in tts_dict:
-                ipa = tts_dict[word]
-                # Synthesize phonemes to speech
-                phoneme_synthesizer.synthesize(ipa)
-    
-    text_to_speech("నమస్కారం కుటుంబం సమయం")
-    """)
-
-
 def example_9_linguistic_analysis():
-    """Example 9: Linguistic analysis."""
-    print("\n" + "="*60)
-    print("Example 9: Linguistic Analysis")
-    print("="*60 + "\n")
-    
     phonetic_dict = PhoneticDictionary("telugu_phonetic.json")
     
     print("Analyzing phonetic patterns...\n")
@@ -314,12 +197,6 @@ def example_9_linguistic_analysis():
 
 
 def example_10_batch_operations():
-    """Example 10: Batch operations and workflows."""
-    print("\n" + "="*60)
-    print("Example 10: Batch Operations")
-    print("="*60 + "\n")
-    
-    # Create a new dictionary
     batch_dict = PhoneticDictionary("telugu_batch.json")
     
     # Batch 1: Scrape words
@@ -338,44 +215,6 @@ def example_10_batch_operations():
     batch_dict.export_csv("batch_data.csv")
     batch_dict.export_json("batch_full.json")
     
-    print("\nBatch workflow complete!")
     batch_dict.display_stats()
 
-
-def run_all_examples():
-    """Run all examples."""
-    print("\n\n")
-    print("█" * 60)
-    print("  Telugu Phonetic Dictionary - Advanced Examples".center(60))
-    print("█" * 60)
-    
-    try:
-        example_1_basic_lookup()
-    except FileNotFoundError:
-        print("(Skipping - dictionary not yet created)\n")
-    
-    try:
-        example_2_search_operations()
-    except FileNotFoundError:
-        print("(Skipping - dictionary not yet created)\n")
-    
-    try:
-        example_3_statistics()
-    except FileNotFoundError:
-        print("(Skipping - dictionary not yet created)\n")
-    
-    example_4_add_entries()
-    example_5_export_formats()
-    example_6_cleaning_pipeline()
-    example_7_g2p_preparation()
-    example_8_tts_integration()
-    example_9_linguistic_analysis()
-    example_10_batch_operations()
-    
-    print("\n" + "█" * 60)
-    print("All examples completed!".center(60))
-    print("█" * 60 + "\n")
-
-
-if __name__ == "__main__":
     run_all_examples()
