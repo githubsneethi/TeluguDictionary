@@ -15,7 +15,7 @@
 ```python
 from phonetic_dict import PhoneticDictionary
 dict = PhoneticDictionary("telugu_phonetic.json")
-entries = dict.get_word("నమస్కారం")
+entries = dict.get_word("మంచిరేవులు")
 ```
 
 #### 2. **wiktionary_scraper.py** - Data Collection
@@ -30,7 +30,7 @@ entries = dict.get_word("నమస్కారం")
 ```python
 from wiktionary_scraper import WiktionaryScraper
 scraper = WiktionaryScraper(phonetic_dict)
-scraper.scrape_words(['నమస్కారం', 'కనుస్సుకో'])
+scraper.scrape_words(['మాధుర్యం', 'శరణం'])
 ```
 
 #### 3. **data_cleaner.py** - Data Quality
@@ -304,4 +304,4 @@ DM at https://www.linkedin.com/in/neethi-amrutha-a2939a376/
 Dhanyavaadhaalu!
 **Happy building! 🎉**
 
-A PassaGlossa initiative - to empower every language from the grassroots level
+A project by Neethi - to empower every language from the grassroots level
