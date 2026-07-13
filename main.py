@@ -7,11 +7,8 @@ from data_cleaner import DataCleaner
 def sample_words():
     #i will explain the telugu words for better understanding
     return [
-        'నమస్కారం',  # hello/greetings
-        'భరత',  # name/India
-        'కనుస్సుకో',  # to see
-        'చెప్పు',  # to say
-        'నీ',  # you
+        'చెప్పు',  # tell me
+        'నీ',  # yours
         'నా',  # my
         'అందరూ',  # everyone
         'ఆ',  # that
@@ -84,9 +81,6 @@ def main():
     phonetic_dict.export_json("telugu_phonetic_full.json")
     print()
     
-    # Step 9: Example queries
-    print("STEP 9: Example queries...")
-    print("-" * 60)
     
     # Search for a word
     test_word = words[0]
@@ -107,16 +101,5 @@ def main():
         for word, entry in search_results[:3]:
             print(f"  - {word}: {entry.ipa}")
     
-    print("\n" + "-" * 60)
-    print("\n✓ Dictionary building complete!")
-    print(f"\nFiles generated:")
-    print(f"  • {dict_file} - Main dictionary (JSON format)")
-    print(f"  • telugu_tts.txt - TTS-ready format (word\\tIPA)")
-    print(f"  • telugu_g2p.txt - G2P training format")
-    print(f"  • telugu_phonetic.csv - Spreadsheet format")
-    print(f"  • telugu_phonetic_full.json - Full data export")
-    print("\n" + "="*60 + "\n")
-
-
 if __name__ == "__main__":
     main()
